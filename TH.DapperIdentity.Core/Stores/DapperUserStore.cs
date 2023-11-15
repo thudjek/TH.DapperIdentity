@@ -38,10 +38,10 @@ public class DapperUserStore<TUser, TRole, TKey, TUserClaim, TUserRole, TUserLog
         _userRoleRepository = userRoleRepository ?? throw new ArgumentNullException(nameof(userRoleRepository));
     }
 
-    private IList<TUserRole> UserRoles { get; set; }
-    private IList<TUserClaim> UserClaims { get; set; }
-    private IList<TUserLogin> UserLogins { get; set; }
-    private IList<TUserToken> UserTokens { get; set; }
+    private List<TUserRole> UserRoles { get; set; }
+    private List<TUserClaim> UserClaims { get; set; }
+    private List<TUserLogin> UserLogins { get; set; }
+    private List<TUserToken> UserTokens { get; set; }
 
     public override IQueryable<TUser> Users => throw new NotSupportedException();
 

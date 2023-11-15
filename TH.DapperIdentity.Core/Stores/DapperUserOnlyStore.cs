@@ -29,9 +29,9 @@ public class DapperUserOnlyStore<TUser, TKey, TUserClaim, TUserLogin, TUserToken
         _userTokenRepository = userTokenRepository ?? throw new ArgumentNullException(nameof(userTokenRepository));
     }
 
-    private IList<TUserClaim> UserClaims { get; set; }
-    private IList<TUserLogin> UserLogins { get; set; }
-    private IList<TUserToken> UserTokens { get; set; }
+    private List<TUserClaim> UserClaims { get; set; }
+    private List<TUserLogin> UserLogins { get; set; }
+    private List<TUserToken> UserTokens { get; set; }
 
     public override IQueryable<TUser> Users => throw new NotSupportedException();
 

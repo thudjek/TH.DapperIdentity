@@ -22,7 +22,7 @@ public class DapperRoleStore<TRole, TKey, TUserRole, TRoleClaim> : RoleStoreBase
         _roleClaimRepository = roleClaimRepository ?? throw new ArgumentNullException(nameof(roleClaimRepository));
     }
 
-    private IList<TRoleClaim> RoleClaims { get; set; }
+    private List<TRoleClaim> RoleClaims { get; set; }
 
     public override IQueryable<TRole> Roles => throw new NotSupportedException();
 
