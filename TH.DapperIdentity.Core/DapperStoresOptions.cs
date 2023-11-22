@@ -1,6 +1,20 @@
-﻿namespace TH.DapperIdentity.Core;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-public class IdentityTablesOptions
+namespace TH.DapperIdentity.Core;
+
+public class DapperStoresOptions
+{
+    public DapperStoresOptions()
+    {
+        TableNames = new();
+    }
+
+    public IdentityTableNamesOptions TableNames { get; set; }
+
+    public IServiceCollection Services { get; set; }
+}
+
+public class IdentityTableNamesOptions
 {
     public string UsersTableName { get; set; } = "AspNetUsers";
     public string RolesTableName { get; set; } = "AspNetRoles";

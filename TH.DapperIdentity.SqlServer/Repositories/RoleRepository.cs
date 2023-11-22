@@ -1,26 +1,29 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Identity;
+using TH.DapperIdentity.Core;
+using TH.DapperIdentity.Core.BaseRepositories;
 using TH.DapperIdentity.Core.Contracts;
 
-namespace TH.DapperIdentity.Core.Repositories;
+namespace TH.DapperIdentity.SqlServer.Repositories;
 public class RoleRepository<TRole, TKey, TRoleClaim> : IdentityRepositoryBase, IRoleRepository<TRole, TKey, TRoleClaim>
     where TRole : IdentityRole<TKey>
     where TKey : IEquatable<TKey>
     where TRoleClaim : IdentityRoleClaim<TKey>, new()
 {
-    public RoleRepository(IDbConnectionFactory dbConnectionFactory, IdentityTablesOptions identityTablesOptions) : base(dbConnectionFactory, identityTablesOptions)
+    private readonly IdentitySqlPropertiesProvider _propertiesProvider;
+
+    public RoleRepository(
+        IDbConnectionFactory dbConnectionFactory,
+        DapperStoresOptions identityTablesOptions,
+        IdentitySqlPropertiesProvider propertiesProvider) : base(dbConnectionFactory, identityTablesOptions)
     {
+        _propertiesProvider = propertiesProvider;
     }
 
-    public virtual async Task<bool> CreateAsync(TRole role)
+    public async Task<bool> CreateAsync(TRole role)
     {
-        var sql = $@"INSERT INTO [dbo].[{IdentityTablesOptions.RolesTableName}]
-                     VALUES (
-                        @Id,
-                        @Name,
-                        @NormalizedName,
-                        @ConcurrencyStamp
-                     )";
+        var sql = $@"INSERT INTO [dbo].[{DapperStoreOptions.TableNames.RolesTableName}]
+                     VALUES ({_propertiesProvider.InsertRoleSqlProperties})";
 
         var rowsInserted = await DbConnection.ExecuteAsync(sql, new
         {
@@ -35,10 +38,8 @@ public class RoleRepository<TRole, TKey, TRoleClaim> : IdentityRepositoryBase, I
 
     public async Task<bool> UpdateAsync(TRole role, IList<TRoleClaim> roleClaims)
     {
-        var sql = $@"UPDATE [dbo].[{IdentityTablesOptions.RolesTableName}]
-                     SET [Name] = @Name
-                         [NormalizedName] = @NormalizedName
-                         [ConcurrencyStamp] = @ConcurrencyStamp
+        var sql = $@"UPDATE [dbo].[{DapperStoreOptions.TableNames.RolesTableName}]
+                     SET {_propertiesProvider.UpdateRoleSqlProperties}
                      WHERE [Id] = @Id";
 
         using var transaction = DbConnection.BeginTransaction();
@@ -53,12 +54,12 @@ public class RoleRepository<TRole, TKey, TRoleClaim> : IdentityRepositoryBase, I
 
         if (roleClaims?.Count > 0)
         {
-            sql = $@"DELETE FROM [dbo].[{IdentityTablesOptions.RoleClaimsTableName}]
+            sql = $@"DELETE FROM [dbo].[{DapperStoreOptions.TableNames.RoleClaimsTableName}]
                      WHERE [RoleId] = @RoleId";
 
             await DbConnection.ExecuteAsync(sql, new { RoleId = role.Id }, transaction);
 
-            sql = $@"INSERT INTO [dbo].[{IdentityTablesOptions.RoleClaimsTableName}]
+            sql = $@"INSERT INTO [dbo].[{DapperStoreOptions.TableNames.RoleClaimsTableName}]
                      VALUES (
                         @RoleId,
                         @ClaimType,
@@ -86,9 +87,9 @@ public class RoleRepository<TRole, TKey, TRoleClaim> : IdentityRepositoryBase, I
         return false;
     }
 
-    public virtual async Task<bool> DeleteAsync(TKey roleId)
+    public async Task<bool> DeleteAsync(TKey roleId)
     {
-        var sql = $@"DELETE FROM [dbo].[{IdentityTablesOptions.RolesTableName}]
+        var sql = $@"DELETE FROM [dbo].[{DapperStoreOptions.TableNames.RolesTableName}]
                      WHERE [RoleId] = @RoleId";
 
         var rowsDeleted = await DbConnection.ExecuteAsync(sql, new { RoleId = roleId });
@@ -96,17 +97,17 @@ public class RoleRepository<TRole, TKey, TRoleClaim> : IdentityRepositoryBase, I
         return rowsDeleted == 1;
     }
 
-    public virtual async Task<TRole> FindByIdAsync(TKey roleId)
+    public async Task<TRole> FindByIdAsync(TKey roleId)
     {
-        var sql = $@"SELECT * FROM [dbo].[{IdentityTablesOptions.RolesTableName}]
+        var sql = $@"SELECT * FROM [dbo].[{DapperStoreOptions.TableNames.RolesTableName}]
                      WHERE [RoleId] = @RoleId";
 
         return await DbConnection.QuerySingleOrDefaultAsync<TRole>(sql, new { RoleId = roleId });
     }
 
-    public virtual async Task<TRole> FindByNameAsync(string normalizedRoleName)
+    public async Task<TRole> FindByNameAsync(string normalizedRoleName)
     {
-        var sql = $@"SELECT * FROM [dbo].[{IdentityTablesOptions.RolesTableName}]
+        var sql = $@"SELECT * FROM [dbo].[{DapperStoreOptions.TableNames.RolesTableName}]
                      WHERE [NormalizedName] = @NormalizedName";
 
         return await DbConnection.QuerySingleOrDefaultAsync<TRole>(sql, new { NormalizedName = normalizedRoleName });

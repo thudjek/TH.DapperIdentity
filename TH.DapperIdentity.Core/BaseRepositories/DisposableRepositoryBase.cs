@@ -1,4 +1,4 @@
-﻿namespace TH.DapperIdentity.Core.Repositories;
+﻿namespace TH.DapperIdentity.Core.BaseRepositories;
 
 public abstract class DisposableRepositoryBase : IDisposable
 {

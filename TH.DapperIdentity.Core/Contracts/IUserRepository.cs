@@ -17,7 +17,6 @@ public interface IUserOnlyRepository<TUser, TKey, TUserClaim, TUserLogin, TUserT
     Task<TUser> FindByIdAsync(TKey id);
     Task<TUser> FindByUserNameAsync(string normalizedUserName);
     Task<IEnumerable<TUser>> GetUsersForClaimAsync(Claim claim);
-    Task<IEnumerable<TUser>> GetUsersInRoleAsync(TKey roleId);
 }
 
 public interface IUserRepository<TUser, TKey, TUserClaim, TUserRole, TUserLogin, TUserToken> : IUserOnlyRepository<TUser, TKey, TUserClaim, TUserLogin, TUserToken>
@@ -29,4 +28,5 @@ public interface IUserRepository<TUser, TKey, TUserClaim, TUserRole, TUserLogin,
     where TUserToken : IdentityUserToken<TKey>, new()
 {
     Task<bool> UpdateAsync(TUser user, IList<TUserRole> userRoles, IList<TUserClaim> userClaims, IList<TUserLogin> userLogins, IList<TUserToken> userTokens);
+    Task<IEnumerable<TUser>> GetUsersInRoleAsync(TKey roleId);
 }

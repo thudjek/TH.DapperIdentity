@@ -1,20 +1,22 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Identity;
+using TH.DapperIdentity.Core;
+using TH.DapperIdentity.Core.BaseRepositories;
 using TH.DapperIdentity.Core.Contracts;
 
-namespace TH.DapperIdentity.Core.Repositories;
+namespace TH.DapperIdentity.SqlServer.Repositories;
 
 public class UserClaimRepository<TKey, TUserClaim> : IdentityRepositoryBase, IUserClaimRepository<TKey, TUserClaim>
     where TKey : IEquatable<TKey>
     where TUserClaim : IdentityUserClaim<TKey>, new()
 {
-    public UserClaimRepository(IDbConnectionFactory dbConnectionFactory, IdentityTablesOptions identityTablesOptions) : base(dbConnectionFactory, identityTablesOptions)
+    public UserClaimRepository(IDbConnectionFactory dbConnectionFactory, DapperStoresOptions identityTablesOptions) : base(dbConnectionFactory, identityTablesOptions)
     {
     }
 
-    public virtual async Task<IEnumerable<TUserClaim>> GetClaimsAsync(TKey userId)
+    public async Task<IEnumerable<TUserClaim>> GetClaimsAsync(TKey userId)
     {
-        var sql = $@"SELECT * FROM [dbo].[{IdentityTablesOptions.UserClaimsTableName}]
+        var sql = $@"SELECT * FROM [dbo].[{DapperStoreOptions.TableNames.UserClaimsTableName}]
                      WHERE [UserId] = @UserId";
 
         return await DbConnection.QueryAsync<TUserClaim>(sql, new { UserId = userId });

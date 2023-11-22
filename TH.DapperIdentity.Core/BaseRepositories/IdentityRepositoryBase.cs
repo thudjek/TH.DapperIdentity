@@ -1,19 +1,19 @@
 ﻿using System.Data;
 using TH.DapperIdentity.Core.Contracts;
 
-namespace TH.DapperIdentity.Core.Repositories;
+namespace TH.DapperIdentity.Core.BaseRepositories;
 
 public class IdentityRepositoryBase : DisposableRepositoryBase
 {
     public IdentityRepositoryBase(
         IDbConnectionFactory dbConnectionFactory,
-        IdentityTablesOptions identityTablesOptions)
+        DapperStoresOptions dapperStoreOptions)
     {
         DbConnection = dbConnectionFactory.Create();
-        IdentityTablesOptions = identityTablesOptions;
+        DapperStoreOptions = dapperStoreOptions;
     }
     protected IDbConnection DbConnection { get; }
-    protected IdentityTablesOptions IdentityTablesOptions { get; }
+    protected DapperStoresOptions DapperStoreOptions { get; }
 
     public override void OnDispose()
     {
