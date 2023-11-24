@@ -5,7 +5,13 @@ VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TH.DapperIdentity.Core", "TH.DapperIdentity.Core\TH.DapperIdentity.Core.csproj", "{C7396D30-C3C8-44DE-B22C-07004817997F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TH.DapperIdentity.SqlServer", "TH.DapperIdentity.SqlServer\TH.DapperIdentity.SqlServer.csproj", "{B5AEEDDF-86F0-4925-ADC8-E16BE8CB7BDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TH.DapperIdentity.SqlServer", "TH.DapperIdentity.SqlServer\TH.DapperIdentity.SqlServer.csproj", "{B5AEEDDF-86F0-4925-ADC8-E16BE8CB7BDD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0595AD8F-9247-4AE3-82C7-27DFD514A7ED}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
