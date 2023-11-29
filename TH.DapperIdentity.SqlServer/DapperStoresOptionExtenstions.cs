@@ -3,7 +3,7 @@ using TH.DapperIdentity.Core;
 using TH.DapperIdentity.Core.Extensions;
 using TH.DapperIdentity.SqlServer.Repositories;
 
-namespace TH.DapperIdentity.SqlServer.Extensions;
+namespace TH.DapperIdentity.SqlServer;
 public static class DapperStoresOptionExtenstions
 {
     public static void AddSqlServerIdentityRepositories<TUser, TKey>(this DapperStoresOptions options)

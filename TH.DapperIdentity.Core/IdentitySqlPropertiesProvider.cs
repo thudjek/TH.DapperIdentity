@@ -27,16 +27,16 @@ public class IdentitySqlPropertiesProvider
     public string InsertRoleSqlProperties { get; init; }
     public string UpdateRoleSqlProperties { get; init; }
 
-    private static string SetSqlProperties(string[] properties, bool includeId)
+    private static string SetSqlProperties(string[] properties, bool isInsert)
     {
         if (properties == null)
         {
             return null;
         }
 
-        if (includeId)
+        if (isInsert)
         {
-            return string.Join(", ", properties.Select(p => $"@{p}"));
+            return string.Join(", ", properties.Where(p => p != "Id").Select(p => $"@{p}"));
         }
 
         return string.Join(", ", properties.Where(p => p != "Id").Select(p => $"[{p}] = @{p}"));
