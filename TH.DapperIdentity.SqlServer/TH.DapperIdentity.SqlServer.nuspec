@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package >
 	<metadata>
-		<id>TH.DapperIdentity.Core</id>
+		<id>TH.DapperIdentity.SqlServer</id>
 		<version>1.0.0</version>
-		<title>.NET Dapper Identity</title>
-		<description>.NET Identity stores implementations using Dapper</description>
+		<title>.NET Dapper Identity Sql Server</title>
+		<description>.NET Identity stores implementations using Dapper for Sql Server database</description>
 		<authors>thudjek</authors>
 		<copyright>Copyright (c) thudjek 2023.</copyright>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<license type="expression">MIT</license>
 		<projectUrl>https://github.com/thudjek/TH.DapperIdentity</projectUrl>
 		<repository type="git" url="https://github.com/thudjek/TH.DapperIdentity.git" branch="main" />
-		<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
-		<tags>.NET C# Identity Dapper</tags>
+		<tags>.NET C# Identity Dapper SqlServer</tags>
 		<language>en-US</language>
 		<readme>README.md</readme>
 	</metadata>
@@ -21,7 +20,6 @@
 		<file src=".\**" exclude="**\bin\**\*;**\obj\**\*;**\*.user;**\*.lock.json;_rels\**\*;package\**\*;**\.vs\**\*;**\.git\**\*;**\.github\**\*;**\LICENSE.txt;**\README.md;" />
 	</files>
 	<dependencies>
-		<dependency id="Dapper" version="2.1.24" />
-		<dependency id="Microsoft.Extensions.Identity.Stores" version="8.0.0" />
+		<dependency id="Microsoft.Data.SqlClient" version="5.1.2" />
 	</dependencies>
 </package>
