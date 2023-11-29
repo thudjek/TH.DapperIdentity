@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>TH.DapperIdentity.Core</id>
+    <version>1.0.0</version>
+    <title>.NET Dapper Identity</title>
+	<description>.NET Identity stores implementations using Dapper</description>
+    <authors>thudjek</authors>
+	<copyright>Copyright (c) thudjek 2023.</copyright>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/thudjek/TH.DapperIdentity</projectUrl>
+	<repository type="git" url="https://github.com/thudjek/TH.DapperIdentity.git" branch="main" />
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <tags>.NET C# Identity Dapper</tags>
+  </metadata>
+</package>
