@@ -30,13 +30,6 @@ DapperIdentity provides extension method *AddDapperStores* on top of IdentityBui
  * Connection string for database
  * Delegate to configure *DapperStoresOptions* (implementation of repositories are added here)
 
-Basic usage:
-
-```csharp
-services.AddIdentity<IdentityUser<int>, IdentityRole<int>>()
-	.AddDapperStores<DbConnectionFactoryImplementation>(connectionString);
-```
-
 Using provided Sql Server repositories:
 
 ```csharp
