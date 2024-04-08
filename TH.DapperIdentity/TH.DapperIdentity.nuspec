@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
     <metadata>
     <id>TH.DapperIdentity</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <title>.NET Dapper Identity</title>
 	<description>.NET Core Identity stores using Dapper</description>
     <authors>thudjek</authors>
@@ -15,9 +15,9 @@
 	<readme>README.md</readme>
     <dependencies>
         <group targetFramework="net8.0">
-            <dependency id="Dapper" version="2.1.24" exclude="Build,Analyzers" />
-            <dependency id="Microsoft.Extensions.Identity.Stores" version="8.0.0" exclude="Build,Analyzers" />
-			<dependency id="Microsoft.Data.SqlClient" version="5.1.2" exclude="Build,Analyzers" />
+            <dependency id="Dapper" version="2.1.35" exclude="Build,Analyzers" />
+			<dependency id="Microsoft.Data.SqlClient" version="5.2.0" exclude="Build,Analyzers" />
+            <dependency id="Microsoft.Extensions.Identity.Stores" version="8.0.3" exclude="Build,Analyzers" />
         </group>
     </dependencies>
     </metadata>
