@@ -27,13 +27,20 @@ public class UserRepository<TUser, TKey, TUserClaim, TUserRole, TUserLogin, TUse
     public async Task<bool> CreateAsync(TUser user)
     {
         var sql = $@"INSERT INTO [dbo].[{DapperStoreOptions.TableNames.UsersTableName}]
+                    OUTPUT INSERTED.Id
                     VALUES ({_propertiesProvider.InsertUserSqlProperties})";
 
         var p = new DynamicParameters(user);
 
-        var rowsInserted = await DbConnection.ExecuteAsync(sql, p);
+        var createdUserId = await DbConnection.QuerySingleOrDefaultAsync<TKey>(sql, p);
 
-        return rowsInserted == 1;
+        if (createdUserId != null && !createdUserId.Equals(default))
+        {
+            user.Id = createdUserId;
+            return true;
+        }
+
+        return false;
     }
 
     public Task<bool> UpdateAsync(TUser user, IList<TUserClaim> userClaims, IList<TUserLogin> userLogins, IList<TUserToken> userTokens) => UpdateAsync(user, null, userClaims, userLogins, userTokens);
