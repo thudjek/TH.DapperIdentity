@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
     <metadata>
     <id>TH.DapperIdentity</id>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <title>.NET Dapper Identity</title>
 	<description>.NET Core Identity stores using Dapper</description>
     <authors>thudjek</authors>

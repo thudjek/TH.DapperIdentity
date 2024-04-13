@@ -27,7 +27,7 @@ DapperIdentity provides extension method *AddDapperStores* on top of IdentityBui
 
 *AddDapperStores* method takes 3 parameters:
  * Generic type parameter of class that implements IDbConnectionFactory (provided SqlServer factory or custom implementation for other database providers)
- * Connection string for database
+ * Database connection string
  * Delegate to configure *DapperStoresOptions* (implementation of repositories are added here)
 
 Using provided Sql Server repositories:
@@ -40,7 +40,7 @@ services.AddIdentity<IdentityUser<int>, IdentityRole<int>>()
 	});
 ```
 
-You can also set custom names of database tables through options:
+You can also set custom database table names through options:
 
 ```csharp
 services.AddIdentity<IdentityUser<int>, IdentityRole<int>>()
