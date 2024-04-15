@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 using TH.DapperIdentity.Contracts;
 
@@ -15,18 +16,21 @@ public class DapperUserOnlyStore<TUser, TKey, TUserClaim, TUserLogin, TUserToken
     private readonly IUserClaimRepository<TKey, TUserClaim> _userClaimRepository;
     private readonly IUserLoginRepository<TUser, TKey, TUserLogin> _userLoginRepository;
     private readonly IUserTokenRepository<TKey, TUserToken> _userTokenRepository;
+    private readonly ILogger<DapperUserOnlyStore<TUser, TKey, TUserClaim, TUserLogin, TUserToken>> _logger;
 
     public DapperUserOnlyStore(
         IUserOnlyRepository<TUser, TKey, TUserClaim, TUserLogin, TUserToken> userRepository,
         IUserClaimRepository<TKey, TUserClaim> userClaimRepository,
         IUserLoginRepository<TUser, TKey, TUserLogin> userLoginRepository,
         IUserTokenRepository<TKey, TUserToken> userTokenRepository,
+        ILogger<DapperUserOnlyStore<TUser, TKey, TUserClaim, TUserLogin, TUserToken>> logger,
         IdentityErrorDescriber describer) : base(describer)
     {
         _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         _userClaimRepository = userClaimRepository ?? throw new ArgumentNullException(nameof(userClaimRepository));
         _userLoginRepository = userLoginRepository ?? throw new ArgumentNullException(nameof(userLoginRepository));
         _userTokenRepository = userTokenRepository ?? throw new ArgumentNullException(nameof(userTokenRepository));
+        _logger = logger;
     }
 
     private List<TUserClaim> UserClaims { get; set; }
@@ -37,6 +41,8 @@ public class DapperUserOnlyStore<TUser, TKey, TUserClaim, TUserLogin, TUserToken
 
     public override async Task<IdentityResult> CreateAsync(TUser user, CancellationToken cancellationToken = default)
     {
+        _logger.LogInformation("Store method CreateAsync started");
+        Console.WriteLine("Store method CreateAsync started - CW");
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(user, nameof(user));
