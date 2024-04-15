@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 using TH.DapperIdentity.BaseRepositories;
 using TH.DapperIdentity.Contracts;
@@ -16,22 +15,17 @@ public class UserRepository<TUser, TKey, TUserClaim, TUserRole, TUserLogin, TUse
     where TUserToken : IdentityUserToken<TKey>, new()
 {
     private readonly IdentitySqlPropertiesProvider _propertiesProvider;
-    private ILogger<UserRepository<TUser, TKey, TUserClaim, TUserRole, TUserLogin, TUserToken>> _logger;
 
     public UserRepository(
         IDbConnectionFactory dbConnectionFactory,
         DapperStoresOptions identityTablesOptions,
-        IdentitySqlPropertiesProvider propertiesProvider,
-        ILogger<UserRepository<TUser, TKey, TUserClaim, TUserRole, TUserLogin, TUserToken>> logger) : base(dbConnectionFactory, identityTablesOptions)
+        IdentitySqlPropertiesProvider propertiesProvider) : base(dbConnectionFactory, identityTablesOptions)
     {
         _propertiesProvider = propertiesProvider;
-        _logger = logger;
     }
 
     public async Task<bool> CreateAsync(TUser user)
     {
-        _logger.LogInformation("CreateAsync started");
-        Console.WriteLine("CreateAsync started - CW");
         var sql = $@"INSERT INTO [dbo].[{DapperStoreOptions.TableNames.UsersTableName}]
                     OUTPUT INSERTED.Id
                     VALUES ({_propertiesProvider.InsertUserSqlProperties})";
@@ -40,13 +34,9 @@ public class UserRepository<TUser, TKey, TUserClaim, TUserRole, TUserLogin, TUse
 
         var createdUserId = await DbConnection.QuerySingleOrDefaultAsync<TKey>(sql, p);
 
-        _logger.LogInformation("UserId is {UserId}", createdUserId);
-        Console.WriteLine($"UserId is {createdUserId} - CW");
         if (createdUserId != null && !createdUserId.Equals(default))
         {
             user.Id = createdUserId;
-            _logger.LogInformation("UserId is set as {SetUserId}", user.Id);
-            Console.WriteLine($"UserId is set as {user.Id} - CW");
             return true;
         }
 
