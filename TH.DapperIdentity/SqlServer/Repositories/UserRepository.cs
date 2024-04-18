@@ -26,9 +26,9 @@ public class UserRepository<TUser, TKey, TUserClaim, TUserRole, TUserLogin, TUse
 
     public async Task<bool> CreateAsync(TUser user)
     {
-        var sql = $@"INSERT INTO [dbo].[{DapperStoreOptions.TableNames.UsersTableName}]
+        var sql = $@"INSERT INTO [dbo].[{DapperStoreOptions.TableNames.UsersTableName}] ({_propertiesProvider.InsertUserSqlPropertyNames})
                     OUTPUT INSERTED.Id
-                    VALUES ({_propertiesProvider.InsertUserSqlProperties})";
+                    VALUES ({_propertiesProvider.InsertUserSqlPropertiesTemplate})";
 
         var p = new DynamicParameters(user);
 
@@ -48,7 +48,7 @@ public class UserRepository<TUser, TKey, TUserClaim, TUserRole, TUserLogin, TUse
     public async Task<bool> UpdateAsync(TUser user, IList<TUserRole> userRoles, IList<TUserClaim> userClaims, IList<TUserLogin> userLogins, IList<TUserToken> userTokens)
     {
         var sql = $@"UPDATE [dbo].[{DapperStoreOptions.TableNames.UsersTableName}]
-                     SET {_propertiesProvider.UpdateUserSqlProperties}
+                     SET {_propertiesProvider.UpdateUserSqlPropertiesTemplate}
                      WHERE [Id] = @Id";
 
         using var transaction = DbConnection.BeginTransaction();

@@ -21,8 +21,8 @@ public class RoleRepository<TRole, TKey, TRoleClaim> : IdentityRepositoryBase, I
 
     public async Task<bool> CreateAsync(TRole role)
     {
-        var sql = $@"INSERT INTO [dbo].[{DapperStoreOptions.TableNames.RolesTableName}]
-                     VALUES ({_propertiesProvider.InsertRoleSqlProperties})";
+        var sql = $@"INSERT INTO [dbo].[{DapperStoreOptions.TableNames.RolesTableName}] ({_propertiesProvider.InsertRoleSqlPropertyNames})
+                     VALUES ({_propertiesProvider.InsertRoleSqlPropertiesTemplate})";
 
         var rowsInserted = await DbConnection.ExecuteAsync(sql, new
         {
@@ -38,7 +38,7 @@ public class RoleRepository<TRole, TKey, TRoleClaim> : IdentityRepositoryBase, I
     public async Task<bool> UpdateAsync(TRole role, IList<TRoleClaim> roleClaims)
     {
         var sql = $@"UPDATE [dbo].[{DapperStoreOptions.TableNames.RolesTableName}]
-                     SET {_propertiesProvider.UpdateRoleSqlProperties}
+                     SET {_propertiesProvider.UpdateRoleSqlPropertiesTemplate}
                      WHERE [Id] = @Id";
 
         using var transaction = DbConnection.BeginTransaction();

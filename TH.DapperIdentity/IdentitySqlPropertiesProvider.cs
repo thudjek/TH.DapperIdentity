@@ -9,23 +9,26 @@ public class IdentitySqlPropertiesProvider
         if (userType != null)
         {
             userProperties = userType.GetProperties().Select(p => p.Name).ToArray();
+            InsertUserSqlPropertiesTemplate = SetSqlProperties(userProperties, true);
+            InsertUserSqlPropertyNames = InsertUserSqlPropertiesTemplate.Replace("@", "");
+            UpdateUserSqlPropertiesTemplate = SetSqlProperties(userProperties, false);
         }
 
         if (roleType != null)
         {
             roleProperties = roleType.GetProperties().Select(p => p.Name).ToArray();
+            InsertRoleSqlPropertiesTemplate = SetSqlProperties(roleProperties, true);
+            InsertRoleSqlPropertyNames = InsertRoleSqlPropertiesTemplate.Replace("@", "");
+            UpdateRoleSqlPropertiesTemplate = SetSqlProperties(roleProperties, false);
         }
-
-        InsertUserSqlProperties = SetSqlProperties(userProperties, true);
-        UpdateUserSqlProperties = SetSqlProperties(userProperties, false);
-        InsertRoleSqlProperties = SetSqlProperties(roleProperties, true);
-        UpdateRoleSqlProperties = SetSqlProperties(roleProperties, false);
     }
 
-    public string InsertUserSqlProperties { get; init; }
-    public string UpdateUserSqlProperties { get; init; }
-    public string InsertRoleSqlProperties { get; init; }
-    public string UpdateRoleSqlProperties { get; init; }
+    public string InsertUserSqlPropertiesTemplate { get; init; }
+    public string InsertUserSqlPropertyNames { get; init; }
+    public string UpdateUserSqlPropertiesTemplate { get; init; }
+    public string InsertRoleSqlPropertiesTemplate { get; init; }
+    public string InsertRoleSqlPropertyNames { get; init; }
+    public string UpdateRoleSqlPropertiesTemplate { get; init; }
 
     private static string SetSqlProperties(string[] properties, bool isInsert)
     {
